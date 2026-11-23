@@ -82,6 +82,27 @@ static class Probe
 
     static readonly Regex Stamp = new(@"^\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\.\d+\]: (\w+): (.*)$", RegexOptions.Compiled);
 
+    /// <summary>Maps each published app's command (tracked or detached) to its name, from apps.json.</summary>
+    static Dictionary<string, string> AppNamesByCommand()
+    {
+        var map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        try
+        {
+            var apps = JsonNode.Parse(File.ReadAllText(Path.Combine(Sunshine.ConfigDir, "apps.json")))?["apps"] as JsonArray;
+            foreach (var a in apps?.OfType<JsonObject>() ?? Enumerable.Empty<JsonObject>())
+            {
+                var name = a["name"]?.ToString();
+                if (string.IsNullOrEmpty(name)) continue;
+                var cmd = a["cmd"]?.ToString();
+                if (!string.IsNullOrEmpty(cmd)) map[cmd] = name;
+                foreach (var d in (a["detached"] as JsonArray)?.Select(x => x?.ToString()) ?? Enumerable.Empty<string?>())
+                    if (!string.IsNullOrEmpty(d)) map[d] = name;
+            }
+        }
+        catch { /* names fall back to what the log says */ }
+        return map;
+    }
+
     /// <summary>
     /// Works out from Sunshine's log whether a device is streaming right now, which encoders
     /// passed their self-test, and the recent connect/disconnect history.
@@ -92,8 +113,9 @@ static class Probe
         var events = new JsonArray();
         var encoders = new List<string>();
         var live = false;
-        string? since = null, app = null, lastApp = null;
+        string? since = null, app = null, lastApp = null, spawned = null;
         var gamepadMissing = false;
+        var names = AppNamesByCommand();
 
         foreach (var line in lines)
         {
@@ -113,10 +135,22 @@ static class Probe
             else if (text.StartsWith("Found HEVC encoder")) encoders.Add("HEVC");
             else if (text.StartsWith("Found AV1 encoder")) encoders.Add("AV1");
             else if (text.Contains("No gamepad input is available")) gamepadMissing = true;
+            else if (text.StartsWith("Spawning"))
+            {
+                // Detached launches log the command they spawn, followed by "Executing [Desktop]".
+                var a = Regex.Match(text, @"^Spawning \[(.+?)\] in ");
+                if (a.Success) spawned = a.Groups[1].Value;
+            }
             else if (text.StartsWith("Executing"))
             {
+                // "Executing [App name]" or, for tracked commands, "Executing: [command] in [dir]".
                 var a = Regex.Match(text, @"\[(.+?)\]");
-                if (a.Success) lastApp = a.Groups[1].Value;
+                if (a.Success)
+                {
+                    var key = spawned ?? a.Groups[1].Value;
+                    lastApp = names.TryGetValue(key, out var n) ? n : a.Groups[1].Value;
+                }
+                spawned = null;
             }
             else if (text.Contains("CLIENT CONNECTED"))
             {

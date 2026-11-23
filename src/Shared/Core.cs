@@ -11,7 +11,7 @@ static class AppInfo
 {
     public static string Name = "Solstice";
     public static string Title = "Solstice";
-    public const string Version = "1.0.0";
+    public const string Version = "1.0.1";
 }
 
 /// <summary>An error whose message is written for the person using the app.</summary>

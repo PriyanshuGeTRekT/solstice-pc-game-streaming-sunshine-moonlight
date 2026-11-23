@@ -182,6 +182,8 @@ static class HostApi
             ? Probe.Activity()
             : new JsonObject { ["streaming"] = false, ["encoders"] = new JsonArray(), ["events"] = new JsonArray(), ["gamepadMissing"] = false };
         var setupDone = Settings.Load().Bool("setupDone", false);
+        // Entries published by an older version are brought up to date once per launch.
+        if (setupDone && api == ApiStatus.Ok && !Setup.Status()["running"]!.GetValue<bool>()) _ = Task.Run(Library.RepairOnce);
         var vigem = host["vigem"]?.GetValue<bool>() == true;
         var firewall = host["firewall"]?.GetValue<bool>() == true;
         var encoders = activity["encoders"]!.AsArray().Select(e => e!.ToString()).ToArray();

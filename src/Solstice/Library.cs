@@ -163,21 +163,63 @@ static class Library
 
     // ---- Sunshine app list ----------------------------------------------------------------
 
+    /// <summary>
+    /// Only Steam Big Picture is launched as a tracked command (Sunshine's own default entry, with
+    /// an undo step that closes it). Everything else hands off to a launcher that is often already
+    /// running: the process Sunshine starts exits at once, and some (explorer.exe for the Xbox app)
+    /// exit with a non-zero code, which Sunshine treats as a failed launch and ends the stream.
+    /// Detached commands are started and never judged by their exit code, which is how Sunshine's
+    /// documentation recommends launching stores and launchers.
+    /// </summary>
+    static bool Tracked(LibItem item) => item.UndoCmd != null;
+
     static JsonObject ToApp(LibItem item)
     {
         var app = new JsonObject
         {
             ["name"] = item.Name,
-            ["cmd"] = item.Cmd,
             ["image-path"] = CoverFor(item),
-            ["auto-detach"] = true,
-            ["wait-all"] = true,
-            ["exit-timeout"] = 5,
             ["index"] = -1,
         };
-        if (item.UndoCmd != null)
+        if (Tracked(item))
+        {
+            app["cmd"] = item.Cmd;
+            app["auto-detach"] = true;
+            app["wait-all"] = true;
+            app["exit-timeout"] = 5;
             app["prep-cmd"] = new JsonArray(new JsonObject { ["do"] = "", ["undo"] = item.UndoCmd });
+        }
+        else
+        {
+            app["detached"] = new JsonArray(item.Cmd);
+        }
         return app;
+    }
+
+    /// <summary>True when a published entry still uses the old tracked-command shape for a launcher.</summary>
+    static bool NeedsDetach(LibItem item, JsonObject app) =>
+        !Tracked(item) && !string.IsNullOrWhiteSpace(app["cmd"]?.ToString());
+
+    static int _repaired;
+
+    /// <summary>
+    /// Brings already-published entries up to date (launch shape and box art) without changing
+    /// which ones are published. Runs once per app launch.
+    /// </summary>
+    public static async Task RepairOnce()
+    {
+        if (Interlocked.Exchange(ref _repaired, 1) == 1) return;
+        try
+        {
+            var snap = await Snapshot();
+            var published = snap["items"]!.AsArray().OfType<JsonObject>()
+                .Where(i => i["added"]!.GetValue<bool>()).Select(i => i["id"]!.ToString()).ToHashSet();
+            if (published.Count > 0) await Sync(published);
+        }
+        catch
+        {
+            _repaired = 0; // try again on the next refresh
+        }
     }
 
     public static async Task<JsonObject> Snapshot()
@@ -228,19 +270,34 @@ static class Library
             added++;
         }
 
-        // Repair published entries whose box art path is missing or out of date (for example
-        // after the cover folder moved), so Sunshine never falls back to its blank box.
+        // Repair published entries: launchers still launched as tracked commands (they end the
+        // stream on a non-zero hand-off exit), and box art that is missing or out of date (for
+        // example after the cover folder moved), so Sunshine never falls back to its blank box.
         foreach (var d in detected.Where(d => selected.Contains(d.Id)))
         {
             var apps = await Sunshine.GetApps();
             var index = IndexOf(apps, d.Name);
             if (index < 0 || apps[index] is not JsonObject app) continue;
+            var fixedApp = (JsonObject)app.DeepClone();
+            var changed = false;
+
+            if (NeedsDetach(d, app))
+            {
+                foreach (var key in new[] { "cmd", "auto-detach", "wait-all", "exit-timeout", "prep-cmd" }) fixedApp.Remove(key);
+                fixedApp["detached"] = new JsonArray(d.Cmd);
+                changed = true;
+            }
+
             var cover = CoverFor(d);
             var image = app["image-path"]?.ToString() ?? "";
-            if (cover.Length == 0 || string.Equals(image, cover, StringComparison.OrdinalIgnoreCase)) continue;
-            if (d.Id == "launcher:steam" && image.Length > 0 && !Path.IsPathRooted(image)) continue; // Sunshine's own Steam art
-            var fixedApp = (JsonObject)app.DeepClone();
-            fixedApp["image-path"] = cover;
+            var builtInArt = d.Id == "launcher:steam" && image.Length > 0 && !Path.IsPathRooted(image); // Sunshine's own Steam art
+            if (cover.Length > 0 && !builtInArt && !string.Equals(image, cover, StringComparison.OrdinalIgnoreCase))
+            {
+                fixedApp["image-path"] = cover;
+                changed = true;
+            }
+
+            if (!changed) continue;
             fixedApp["index"] = index;
             await Sunshine.SaveApp(fixedApp);
         }

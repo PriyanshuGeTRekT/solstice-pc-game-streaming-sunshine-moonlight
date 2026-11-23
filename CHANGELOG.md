@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.1
+
+**Fixed**
+- Starting the **Xbox app** (and possibly other launchers) from the handheld ended the stream at once with Moonlight's "Something went wrong on your host PC" message. The Xbox app is opened through `explorer.exe`, which hands off to Windows and exits with code 1, and Sunshine took that as a failed launch. Launchers and games are now published as detached commands, which Sunshine starts without judging their exit code. Steam Big Picture keeps Sunshine's own entry.
+- Entries published by 1.0.0 are updated automatically the next time Solstice opens. Nothing to re-add.
+- **Recent sessions** and **Streaming now** show the app's name (for example "Xbox app") instead of "Desktop" for launchers.
+
 ## 1.0.0
 
 First release.
