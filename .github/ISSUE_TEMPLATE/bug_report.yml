@@ -1,0 +1,91 @@
+name: Bug report
+description: Something in Solstice or Solstice Play does not work as it should.
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a problem. Please check the [FAQ](https://github.com/PriyanshuGeTRekT/solstice-pc-game-streaming-sunshine-moonlight#faq) and the [known limitations](https://github.com/PriyanshuGeTRekT/solstice-pc-game-streaming-sunshine-moonlight#known-limitations) first, and search the existing issues to see if it has already been reported.
+
+  - type: dropdown
+    id: app
+    attributes:
+      label: Which app?
+      options:
+        - Solstice (on the PC)
+        - Solstice Play (on the handheld)
+        - Both / not sure
+    validations:
+      required: true
+
+  - type: input
+    id: app-version
+    attributes:
+      label: Solstice version
+      description: If you built it yourself, give the commit.
+      placeholder: "1.0.0"
+    validations:
+      required: true
+
+  - type: input
+    id: pc
+    attributes:
+      label: PC
+      description: Windows version and graphics card (Settings › System › About; Task Manager › Performance › GPU).
+      placeholder: "Windows 11 24H2, NVIDIA GeForce RTX 4070"
+    validations:
+      required: true
+
+  - type: input
+    id: handheld
+    attributes:
+      label: Handheld
+      description: Model and Windows version, if the problem involves the handheld.
+      placeholder: "ROG Ally X, Windows 11 24H2"
+
+  - type: dropdown
+    id: network
+    attributes:
+      label: How is the PC connected?
+      options:
+        - Ethernet cable
+        - Wi-Fi
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: What did you do, step by step?
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What happened instead? Include any error message.
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or recordings
+      description: Please remove anything personal (PC names, addresses, game names you would rather not share) first.
+
+  - type: textarea
+    id: log
+    attributes:
+      label: Sunshine log (optional)
+      description: "Solstice › Activity shows Sunshine's log. Paste the lines around the problem. Remove anything personal first."
+      render: text

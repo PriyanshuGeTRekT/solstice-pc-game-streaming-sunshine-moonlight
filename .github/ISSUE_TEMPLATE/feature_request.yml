@@ -1,0 +1,43 @@
+name: Feature request
+description: Suggest an idea or an improvement for Solstice.
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the idea. Please search the existing issues and the [roadmap](https://github.com/PriyanshuGeTRekT/solstice-pc-game-streaming-sunshine-moonlight#roadmap) first.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      placeholder: "I often want to ..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you use today
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - PC setup and health
+        - Pairing and devices
+        - Library and box art
+        - Tuning and stream quality
+        - Solstice Play on the handheld
+        - Something new
+    validations:
+      required: true

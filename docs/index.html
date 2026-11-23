@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solstice – One-Click PC Game Streaming to ROG Ally (Sunshine + Moonlight, Free)</title>
+<meta name="description" content="Free, open-source one-click game streaming from your Windows PC to a ROG Ally, Legion Go or any Windows handheld. Sets up Sunshine and Moonlight for you: one-tap pairing, native 1080p 120 Hz, wake-on-LAN, Steam, Epic, EA, Ubisoft and Xbox.">
+<meta name="keywords" content="stream pc games to rog ally, sunshine moonlight setup, rog ally game streaming, moonlight pairing, steam remote play alternative, windows handheld streaming">
+<link rel="canonical" href="https://priyanshugetrekt.github.io/solstice-pc-game-streaming-sunshine-moonlight/">
+<meta name="author" content="Priyanshu Yadav">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0d0f14" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fbf8f3" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/png" sizes="256x256" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Solstice">
+<meta property="og:url" content="https://priyanshugetrekt.github.io/solstice-pc-game-streaming-sunshine-moonlight/">
+<meta property="og:title" content="Solstice – Play your PC games on your handheld">
+<meta property="og:description" content="One click sets up your Windows PC for game streaming, one tap on your ROG Ally pairs and plays. Sunshine and Moonlight, set up for you. Free and open source.">
+<meta property="og:image" content="https://priyanshugetrekt.github.io/solstice-pc-game-streaming-sunshine-moonlight/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta property="og:image:alt" content="Solstice app icon and a screenshot of the app showing Ready to stream.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Solstice – Play your PC games on your handheld">
+<meta name="twitter:description" content="One click sets up your Windows PC for game streaming, one tap on your ROG Ally pairs and plays. Sunshine and Moonlight, set up for you. Free and open source.">
+<meta name="twitter:image" content="https://priyanshugetrekt.github.io/solstice-pc-game-streaming-sunshine-moonlight/og-image.png">
+<meta name="twitter:image:alt" content="Solstice app icon and a screenshot of the app showing Ready to stream.">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Solstice",
+  "description": "One click sets up your Windows PC for game streaming, one tap on your ROG Ally pairs and plays. Sunshine and Moonlight, set up for you. Free and open source.",
+  "url": "https://priyanshugetrekt.github.io/solstice-pc-game-streaming-sunshine-moonlight/",
+  "image": "https://priyanshugetrekt.github.io/solstice-pc-game-streaming-sunshine-moonlight/icon.png",
+  "operatingSystem": "Windows 10, Windows 11",
+  "applicationCategory": "GameApplication",
+  "softwareVersion": "1.0.0",
+  "softwareRequirements": "Gaming PC with a hardware video encoder; Windows handheld such as ROG Ally",
+  "downloadUrl": "https://github.com/PriyanshuGeTRekT/solstice-pc-game-streaming-sunshine-moonlight/releases/latest/download/Solstice.zip",
+  "installUrl": "https://github.com/PriyanshuGeTRekT/solstice-pc-game-streaming-sunshine-moonlight/releases/latest/download/Solstice.zip",
+  "license": "https://github.com/PriyanshuGeTRekT/solstice-pc-game-streaming-sunshine-moonlight/blob/main/LICENSE",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": {
+    "@type": "Person",
+    "name": "Priyanshu Yadav",
+    "url": "https://github.com/PriyanshuGeTRekT",
+    "sameAs": ["https://github.com/PriyanshuGeTRekT"]
+  },
+  "screenshot": [
+    "https://priyanshugetrekt.github.io/solstice-pc-game-streaming-sunshine-moonlight/screenshots/pc-home.png",
+    "https://priyanshugetrekt.github.io/solstice-pc-game-streaming-sunshine-moonlight/screenshots/pc-approve.png",
+    "https://priyanshugetrekt.github.io/solstice-pc-game-streaming-sunshine-moonlight/screenshots/ally-home.png"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I stream PC games to my ROG Ally?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Install Solstice on the gaming PC and click Set up everything. Then choose Add a device, open the address it shows in Edge on the Ally, run Solstice Play and tap Set up. Approve the matching four digits on the PC. Under the hood it is Sunshine on the PC and Moonlight on the Ally, set up for you." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Sunshine and Moonlight better than Steam Remote Play?",
+      "acceptedAnswer": { "@type": "Answer", "text": "For most people, yes: typically lower latency, higher image quality at the same bitrate, and it works with every launcher (Epic, EA, Ubisoft, Xbox Game Pass), not just Steam. Solstice removes the setup work that usually makes people stick with Steam Remote Play." }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to install Sunshine or Moonlight myself?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Solstice installs Sunshine and the controller driver on the PC, and Solstice Play installs Moonlight on the handheld, from their official releases." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work with the Legion Go, MSI Claw or Steam Deck?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Solstice Play works on any Windows handheld or PC, including the Legion Go and MSI Claw. The Steam Deck runs Linux, so install Moonlight from Discover and pair with the PIN under Devices in Solstice." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can the handheld wake my PC from sleep?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes, if Wake-on-LAN is on (Solstice checks and can turn it on) and the PC is asleep rather than fully shut down. Press Play and Solstice Play wakes it first." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Solstice change Sunshine or Moonlight?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. It uses Sunshine's local API and settings and Moonlight's command line, and leaves both apps unmodified." }
+    }
+  ]
+}
+</script>
+
+<style>
+:root {
+  --bg: #0d0f14; --bg-alt: #11141b; --raised: #161a23; --line: #262b39; --line-strong: #353c4e;
+  --text: #eceef2; --muted: #a0a8b6; --faint: #6f7789;
+  --sun: #ffb347; --sun-ink: #1c1304; --moon: #8b93ff;
+  --shadow: 0 30px 80px rgba(0, 0, 0, .45);
+  --font: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --display: "Segoe UI Variable Display", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono: "Cascadia Mono", Consolas, ui-monospace, monospace;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #fbf8f3; --bg-alt: #f3eee5; --raised: #ffffff; --line: #e6dfd2; --line-strong: #d3cab9;
+    --text: #17181c; --muted: #555b67; --faint: #7d8391; --sun: #e88a12; --sun-ink: #ffffff;
+    --shadow: 0 30px 70px rgba(60, 40, 10, .16);
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 var(--font); -webkit-font-smoothing: antialiased; }
+h1, h2, h3 { font-family: var(--display); letter-spacing: -0.02em; line-height: 1.15; text-wrap: balance; margin: 0; }
+p { margin: 0; text-wrap: pretty; }
+a { color: inherit; }
+img { max-width: 100%; height: auto; }
+.wrap { width: min(1120px, 100% - 40px); margin: 0 auto; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+:focus-visible { outline: 3px solid var(--moon); outline-offset: 3px; border-radius: 6px; }
+
+.site-header { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 86%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+.site-header nav { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 10px; font: 600 18px/1 var(--display); text-decoration: none; }
+.brand img { border-radius: 7px; }
+.site-header ul { display: flex; gap: 6px; list-style: none; margin: 0; padding: 0; align-items: center; }
+.site-header li a { display: block; padding: 8px 12px; border-radius: 8px; text-decoration: none; color: var(--muted); font-size: 15px; }
+.site-header li a:hover { color: var(--text); background: var(--raised); }
+.nav-cta a { color: var(--text) !important; border: 1px solid var(--line-strong); }
+
+.hero { position: relative; overflow: hidden; padding: 80px 0 40px; text-align: center; }
+.hero::before { content: ""; position: absolute; inset: -40% -10% auto; height: 640px; background: radial-gradient(closest-side, color-mix(in srgb, var(--sun) 22%, transparent), transparent); pointer-events: none; }
+.hero .wrap { position: relative; }
+.hero-icon { border-radius: 28px; box-shadow: var(--shadow); }
+.hero h1 { margin: 26px 0 0; }
+.hero .name { display: block; font-size: 22px; color: var(--sun); letter-spacing: .02em; margin-bottom: 10px; }
+.hero .headline { display: block; font-size: clamp(38px, 6vw, 64px); }
+.hero .sub { max-width: 680px; margin: 22px auto 0; color: var(--muted); font-size: 19px; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 32px; }
+.btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 24px; border-radius: 14px; font-weight: 600; text-decoration: none; background: var(--sun); color: var(--sun-ink); border: 1px solid var(--sun); transition: transform .12s, filter .12s; }
+.btn:hover { transform: translateY(-1px); filter: brightness(1.06); }
+.btn.secondary { background: var(--raised); color: var(--text); border-color: var(--line-strong); }
+.btn svg { width: 20px; height: 20px; fill: currentColor; }
+.btn small { display: block; font-weight: 400; font-size: 13px; opacity: .8; }
+.meta { margin-top: 18px; color: var(--faint); font-size: 14px; }
+.link-arrow { color: var(--muted); font-size: 15px; }
+.hero-shot { margin: 48px auto 0; display: block; width: min(860px, 100%); border-radius: 18px; border: 1px solid var(--line-strong); box-shadow: var(--shadow); }
+
+.highlights { padding: 30px 0 70px; }
+.highlights .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.card { padding: 22px; border-radius: 18px; background: var(--raised); border: 1px solid var(--line); }
+.card .emoji { font-size: 26px; }
+.card h2 { font-size: 18px; margin: 12px 0 6px; }
+.card p { color: var(--muted); font-size: 15px; }
+
+.section { padding: 80px 0; }
+.section.alt { background: var(--bg-alt); border-block: 1px solid var(--line); }
+.split { display: grid; grid-template-columns: 1fr 1.25fr; gap: 56px; align-items: center; }
+.split.flip { grid-template-columns: 1.25fr 1fr; }
+.split.flip .copy { order: 2; }
+.eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--sun); margin-bottom: 12px; }
+.copy h2 { font-size: clamp(28px, 4vw, 38px); margin-bottom: 16px; }
+.copy p { color: var(--muted); }
+.copy ul { margin: 18px 0 0; padding-left: 20px; color: var(--muted); }
+.copy li { margin-bottom: 8px; }
+.copy li b { color: var(--text); font-weight: 600; }
+.shot { border-radius: 16px; border: 1px solid var(--line-strong); box-shadow: var(--shadow); display: block; }
+.pair-shots { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+
+.section-title { font-size: clamp(28px, 4vw, 38px); text-align: center; margin-bottom: 14px; }
+.section-lead { text-align: center; color: var(--muted); max-width: 640px; margin: 0 auto 40px; }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; counter-reset: s; }
+.steps .card { counter-increment: s; }
+.steps .card h3 { font-size: 18px; margin: 14px 0 8px; }
+.steps .card h3::before { content: counter(s); display: inline-grid; place-items: center; width: 30px; height: 30px; margin-right: 10px; border-radius: 50%; background: var(--sun); color: var(--sun-ink); font-size: 15px; vertical-align: 2px; }
+.steps .card p, .steps .card li { color: var(--muted); font-size: 15px; }
+.steps .card ol { margin: 0; padding-left: 20px; }
+.note { max-width: 760px; margin: 30px auto 0; text-align: center; color: var(--faint); font-size: 15px; }
+code { font: 14px var(--mono); background: var(--raised); border: 1px solid var(--line); padding: 2px 6px; border-radius: 6px; }
+
+.faq { max-width: 820px; margin: 0 auto; }
+.faq details { border-bottom: 1px solid var(--line); padding: 18px 4px; }
+.faq summary { cursor: pointer; font: 600 18px/1.4 var(--display); list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; color: var(--sun); font-size: 22px; line-height: 1; }
+.faq details[open] summary::after { content: "–"; }
+.faq details p { color: var(--muted); margin-top: 10px; }
+
+.cta { padding: 90px 0; text-align: center; }
+.cta p { color: var(--muted); margin: 12px auto 0; max-width: 560px; }
+
+.site-footer { border-top: 1px solid var(--line); padding: 30px 0 40px; color: var(--faint); font-size: 14px; }
+.site-footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 28px; justify-content: space-between; }
+.site-footer ul { display: flex; flex-wrap: wrap; gap: 18px; list-style: none; margin: 0; padding: 0; }
+.site-footer a { color: var(--muted); text-decoration: none; }
+.site-footer a:hover { color: var(--text); }
+
+@media (max-width: 900px) {
+  .highlights .grid, .steps { grid-template-columns: 1fr 1fr; }
+  .split, .split.flip { grid-template-columns: 1fr; gap: 30px; }
+  .split.flip .copy { order: 0; }
+}
+@media (max-width: 600px) {
+  .highlights .grid, .steps, .pair-shots { grid-template-columns: 1fr; }
+  .hide-sm { display: none; }
+  .hero { padding-top: 50px; }
+  .section { padding: 56px 0; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn { transition: none; } }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="wrap" aria-label="Main">
+    <a class="brand" href="#top" aria-label="Solstice, back to top">
+      <img src="icon.png" width="28" height="28" alt="">
+      <span>Solstice</span>
+    </a>
+    <ul>
+      <li class="hide-sm"><a href="#features">Features</a></li>
+      <li><a href="#install">Install</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li class="nav-cta"><a href="https://github.com/PriyanshuGeTRekT/solstice-pc-game-streaming-sunshine-moonlight">GitHub</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <div class="wrap">
+      <img class="hero-icon" src="icon.png" width="112" height="112" alt="Solstice app icon: an orange sun with a crescent bite on a dark rounded square">
+      <h1 id="hero-title">
+        <span class="name">Solstice</span>
+        <span class="headline">Play your PC games on your handheld.</span>
+      </h1>
+      <p class="sub">One click sets up your Windows gaming PC for low-latency streaming. One tap on your ROG Ally finds it, pairs and plays. Sunshine and Moonlight, set up for you, for every launcher.</p>
+      <div class="actions">
+        <a class="btn" href="https://github.com/PriyanshuGeTRekT/solstice-pc-game-streaming-sunshine-moonlight/releases/latest/download/Solstice.zip">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 3h2v10.17l3.59-3.58L18 11l-6 6-6-6 1.41-1.41L11 13.17V3zM5 19h14v2H5z"/></svg>
+          <span>Download for your PC<small>Solstice.zip · Windows 10 or 11</small></span>
+        </a>
+        <a class="btn secondary" href="https://github.com/PriyanshuGeTRekT/solstice-pc-game-streaming-sunshine-moonlight/releases/latest/download/SolsticePlay.exe">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 3h2v10.17l3.59-3.58L18 11l-6 6-6-6 1.41-1.41L11 13.17V3zM5 19h14v2H5z"/></svg>
+          <span>Solstice Play for the handheld<small>SolsticePlay.exe · ROG Ally, Legion Go, Claw</small></span>
+        </a>
+      </div>
+      <p class="meta">Free and open source · Version 1.0.0 · <a class="link-arrow" href="https://github.com/PriyanshuGeTRekT/solstice-pc-game-streaming-sunshine-moonlight">View the source on GitHub</a></p>
+
+      <img class="hero-shot" src="demo.gif" width="960" height="640" fetchpriority="high" alt="Animated demo: one-click setup on the PC, Solstice Play on a ROG Ally shows four digits, the PC approves the same digits, and the handheld lists the PC's games.">
+    </div>
+  </section>
+
+  <section class="highlights" aria-label="Highlights">
+    <div class="wrap grid">
+      <div class="card"><span class="emoji" aria-hidden="true">🖱️</span><h2>One click, one tap</h2><p>No web admin page, no PINs to type, no config files.</p></div>
+      <div class="card"><span class="emoji" aria-hidden="true">⚡</span><h2>Native &amp; low-latency</h2><p>Games render at the handheld's own resolution and refresh rate, encoded in hardware.</p></div>
+      <div class="card"><span class="emoji" aria-hidden="true">🎮</span><h2>Every launcher</h2><p>Steam, Epic, EA, Ubisoft, Xbox, GOG, Battle.net, Playnite, or the whole desktop.</p></div>
+      <div class="card"><span class="emoji" aria-hidden="true">🔒</span><h2>Locked down</h2><p>Private login, admin page kept on the PC, and nothing pairs without your approval.</p></div>
+    </div>
+  </section>
+
+  <section class="section alt" id="features" aria-labelledby="s0-title">
+    <div class="wrap split">
+      <div class="copy">
+        <p class="eyebrow">On your PC</p>
+        <h2 id="s0-title">Everything the host needs, in one click.</h2>
+        <p>Solstice installs Sunshine and the ViGEmBus controller driver from their official releases, behind a single Windows prompt, and doesn't call it done until the encoder and controller check out.</p>
+        <ul>
+          <li><b>Starts the service</b> with Windows and opens the firewall for it.</li>
+          <li><b>Private login</b>: a random 28-character password, encrypted for your Windows account.</li>
+          <li><b>Tuned settings</b> and your launchers, published with box art.</li>
+          <li><b>Health checks</b> afterwards, each with a one-click fix.</li>
+        </ul>
+      </div>
+      <img class="shot" src="screenshots/pc-setup.png" width="1180" height="780" loading="lazy" alt="Solstice setting up a PC: Sunshine and ViGEmBus installed, the service running, a private login and tuned settings.">
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="s1-title">
+    <div class="wrap split flip">
+      <div class="copy">
+        <p class="eyebrow">Pairing</p>
+        <h2 id="s1-title">Same four digits on both screens. Approve.</h2>
+        <p>The PC serves Solstice Play to your handheld over the home network. Run it, tap Set up, and the PC asks whether to let the device in, showing the same four digits as the handheld. No PIN to type, and nothing pairs without your click.</p>
+        <ul>
+          <li><b>Installs Moonlight</b> on the handheld for you.</li>
+          <li><b>Finds the PC without mDNS</b>, so "Public" networks aren't a problem.</li>
+          <li><b>TVs, phones and Steam Deck</b> pair the classic way, with Moonlight's PIN.</li>
+        </ul>
+      </div>
+      <div class="pair-shots">
+        <img class="shot" src="screenshots/ally-pair.png" width="1280" height="720" loading="lazy" alt="Solstice Play on a ROG Ally showing the four digits 4826 to approve on the PC.">
+        <img class="shot" src="screenshots/pc-approve.png" width="1180" height="780" loading="lazy" alt="Solstice on the PC: ROG Ally wants to pair, showing 4826, with Decline and Approve.">
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt" aria-labelledby="s2-title">
+    <div class="wrap split">
+      <div class="copy">
+        <p class="eyebrow">On the handheld</p>
+        <h2 id="s2-title">Press Play. Even when the PC is asleep.</h2>
+        <p>Solstice Play sizes the stream to the screen (1080p at 120 fps and 50 Mbps on a ROG Ally), wakes the PC with Wake-on-LAN if it's asleep, and launches straight into Desktop, Steam Big Picture or a game.</p>
+        <ul>
+          <li><b>Native resolution</b>: the PC's monitor switches to the handheld's mode for the session, then back.</li>
+          <li><b>Built for the controller</b>: D-pad and A to navigate, Y for stream settings.</li>
+          <li><b>Hold View</b> to send the Guide button and open Steam's overlay.</li>
+        </ul>
+      </div>
+      <img class="shot" src="screenshots/ally-home.png" width="1280" height="720" loading="lazy" alt="Solstice Play home on a ROG Ally: Play on GAMING-PC, 1920×1080 at 120 fps, 50 Mbps, HEVC, and tiles for Desktop, Steam Big Picture and games.">
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="s3-title">
+    <div class="wrap split flip">
+      <div class="copy">
+        <p class="eyebrow">Library</p>
+        <h2 id="s3-title">Every launcher, with box art.</h2>
+        <p>Solstice finds Steam and your installed Steam games, Epic Games and installed Epic games, the EA app, Ubisoft Connect, the Xbox app, GOG Galaxy, Battle.net and Playnite. Tick what should show up on the handheld. Desktop is always there for everything else.</p>
+      </div>
+      <img class="shot" src="screenshots/pc-library.png" width="1180" height="780" loading="lazy" alt="Solstice library with Steam, Epic Games, EA app, Ubisoft Connect and Xbox app launchers and installed games.">
+    </div>
+  </section>
+
+  <section class="section alt" id="install" aria-labelledby="install-title">
+    <div class="wrap">
+      <h2 class="section-title" id="install-title">Set up in three steps</h2>
+      <p class="section-lead">About two minutes, start to finish. Both devices on the same home network.</p>
+      <div class="steps">
+        <div class="card">
+          <h3>On the PC</h3>
+          <ol>
+            <li>Download <a href="https://github.com/PriyanshuGeTRekT/solstice-pc-game-streaming-sunshine-moonlight/releases/latest/download/Solstice.zip">Solstice.zip</a> and unzip it.</li>
+            <li>Double-click <b>Install Solstice.cmd</b>.</li>
+            <li>Click <b>Set up everything</b>, then <b>Yes</b> on the Windows prompt.</li>
+          </ol>
+        </div>
+        <div class="card">
+          <h3>On the handheld</h3>
+          <ol>
+            <li>On the PC, choose <b>Devices › Add a device</b>.</li>
+            <li>On the handheld, open the address it shows in Edge and download Solstice Play.</li>
+            <li>Run it and tap <b>Set up</b>.</li>
+          </ol>
+        </div>
+        <div class="card">
+          <h3>Approve and play</h3>
+          <ol>
+            <li>Check both screens show the same four digits.</li>
+            <li>Click <b>Approve</b> on the PC.</li>
+            <li>Press <b>Play</b> on the handheld. Hold <b>Start + Select + L1 + R1</b> to leave a game.</li>
+          </ol>
+        </div>
+      </div>
+      <p class="note">The apps aren't code-signed, so Windows SmartScreen asks once: choose <b>More info</b>, then <b>Run anyway</b>. To build from source, see the <a href="https://github.com/PriyanshuGeTRekT/solstice-pc-game-streaming-sunshine-moonlight#installation">README</a>.</p>
+    </div>
+  </section>
+
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="wrap">
+      <h2 class="section-title" id="faq-title">Questions</h2>
+      <div class="faq">
+        <details open>
+          <summary>How do I stream PC games to my ROG Ally?</summary>
+          <p>Install Solstice on the gaming PC and click Set up everything. Then choose Add a device, open the address it shows in Edge on the Ally, run Solstice Play and tap Set up. Approve the matching four digits on the PC. Under the hood it's Sunshine on the PC and Moonlight on the Ally, set up for you.</p>
+        </details>
+        <details>
+          <summary>Is Sunshine and Moonlight better than Steam Remote Play?</summary>
+          <p>For most people, yes: typically lower latency, higher image quality at the same bitrate, and it works with every launcher (Epic, EA, Ubisoft, Xbox Game Pass), not just Steam. Solstice removes the setup work that usually makes people stick with Steam Remote Play.</p>
+        </details>
+        <details>
+          <summary>Do I need to install Sunshine or Moonlight myself?</summary>
+          <p>No. Solstice installs Sunshine and the controller driver on the PC, and Solstice Play installs Moonlight on the handheld, from their official releases. If Sunshine is already installed, Solstice uses it.</p>
+        </details>
+        <details>
+          <summary>Does it work with the Legion Go, MSI Claw or Steam Deck?</summary>
+          <p>Solstice Play works on any Windows handheld or PC, including the Legion Go and MSI Claw. The Steam Deck runs Linux, so install Moonlight from Discover and pair with the PIN under Devices in Solstice.</p>
+        </details>
+        <details>
+          <summary>Can the handheld wake my PC from sleep?</summary>
+          <p>Yes, if Wake-on-LAN is on (Solstice checks and can turn it on) and the PC is asleep rather than fully shut down. Press Play and Solstice Play wakes it first.</p>
+        </details>
+        <details>
+          <summary>Does it work outside my home?</summary>
+          <p>Solstice sets up streaming inside your house. Playing over the internet needs port forwarding or a VPN such as Tailscale, which Sunshine and Moonlight support but Solstice doesn't configure yet.</p>
+        </details>
+        <details>
+          <summary>Does Solstice change Sunshine or Moonlight?</summary>
+          <p>No. It uses Sunshine's local API and settings and Moonlight's command line, and leaves both unmodified. Everything Solstice sets is visible in Sunshine's own settings page.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" aria-labelledby="cta-title">
+    <div class="wrap">
+      <h2 class="section-title" id="cta-title">Get off the desk. Keep the frames.</h2>
+      <p>Free, open source and built on the two best open-source game streaming projects.</p>
+      <div class="actions">
+        <a class="btn" href="https://github.com/PriyanshuGeTRekT/solstice-pc-game-streaming-sunshine-moonlight/releases/latest/download/Solstice.zip">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 3h2v10.17l3.59-3.58L18 11l-6 6-6-6 1.41-1.41L11 13.17V3zM5 19h14v2H5z"/></svg>
+          Download Solstice
+        </a>
+        <a class="btn secondary" href="https://github.com/PriyanshuGeTRekT/solstice-pc-game-streaming-sunshine-moonlight">Star on GitHub</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>© 2026 <a href="https://github.com/PriyanshuGeTRekT">Priyanshu Yadav</a> · MIT licensed · Built on <a href="https://github.com/LizardByte/Sunshine">Sunshine</a> and <a href="https://github.com/moonlight-stream/moonlight-qt">Moonlight</a>. Not affiliated with them or with ASUS.</p>
+    <nav aria-label="Footer">
+      <ul>
+        <li><a href="https://github.com/PriyanshuGeTRekT/solstice-pc-game-streaming-sunshine-moonlight/releases">Releases</a></li>
+        <li><a href="https://github.com/PriyanshuGeTRekT/solstice-pc-game-streaming-sunshine-moonlight/issues">Issues</a></li>
+        <li><a href="https://github.com/PriyanshuGeTRekT/solstice-pc-game-streaming-sunshine-moonlight/blob/main/CONTRIBUTING.md">Contributing</a></li>
+        <li><a href="https://github.com/PriyanshuGeTRekT/solstice-pc-game-streaming-sunshine-moonlight/blob/main/LICENSE">License</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>

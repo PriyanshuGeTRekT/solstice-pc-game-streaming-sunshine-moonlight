@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and answers
+    url: https://github.com/PriyanshuGeTRekT/solstice-pc-game-streaming-sunshine-moonlight#faq
+    about: Check the FAQ in the README before opening an issue. Many common questions are answered there.
+  - name: Problems with the stream itself (Sunshine)
+    url: https://github.com/LizardByte/Sunshine/issues
+    about: Encoding, capture and host-side streaming problems that also happen without Solstice.
+  - name: Problems with the stream itself (Moonlight)
+    url: https://github.com/moonlight-stream/moonlight-qt/issues
+    about: Decoding, input and client-side streaming problems that also happen without Solstice Play.
