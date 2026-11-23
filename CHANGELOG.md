@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.0.2
+
+**Fixed**
+- Streaming kept switching itself off. Sunshine's system-tray icon has a **Quit** item that stops the whole streaming service, and it is easy to hit by mistake. Solstice now hides that icon (Tuning › Hide Sunshine's tray icon), applied automatically the next time Solstice opens. When Sunshine was stopped that way, the Home page says so and offers to start it again.
+
+**New**
+- **Controller type** under Tuning: Xbox 360 (automatic, works with nearly every game), PlayStation DS4 (worth trying when an Xbox app game such as Flight Simulator 2024 ignores buttons, and passes the handheld's gyro through) or Xbox Series (when LizardByte's Virtual HID Driver is installed).
+- **Other controllers** health check: warns when a controller is connected directly to the PC, because games may treat it as player 1 and ignore the handheld.
+- The scripts that render the YouTube video, Short and thumbnail from demo mode are in `marketing/`.
+
 ## 1.0.1
 
 **Fixed**

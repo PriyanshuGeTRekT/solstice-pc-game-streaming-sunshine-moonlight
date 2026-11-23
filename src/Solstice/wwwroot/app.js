@@ -387,6 +387,11 @@ function tuningView(force) {
       <input type="radio" name="profile" value="${id}" ${t.profile === id ? 'checked' : ''}>
       <div class="box">${tag ? `<span class="tag">${tag}</span>` : ''}<h3>${profileNames[id]}</h3><p>${text}</p></div>
     </label>`;
+  const controller = (id, tag, title, text, disabled) => `
+    <label class="profile${disabled ? ' off' : ''}">
+      <input type="radio" name="controller" value="${id}" ${t.controller === id ? 'checked' : ''} ${disabled ? 'disabled' : ''}>
+      <div class="box">${tag ? `<span class="tag">${tag}</span>` : ''}<h3>${title}</h3><p>${text}</p></div>
+    </label>`;
   const toggle = (key, title, text) => `
     <div class="row">
       <div class="grow"><div class="title">${title}</div><div class="detail">${text}</div></div>
@@ -394,7 +399,7 @@ function tuningView(force) {
     </div>`;
 
   if (force) app.drawn = '';
-  draw('tuning|' + JSON.stringify([s.tuning, s.host.display, s.host.vendor]), `
+  draw('tuning|' + JSON.stringify([s.tuning, s.host.display, s.host.vendor, s.sunshine.virtualHid]), `
     <div class="head"><h1>Tuning</h1><p>How this PC encodes and presents the stream. Bitrate, resolution and frame rate are chosen on the handheld.</p></div>
     <h2 class="section-title" style="margin-top:0">Encoder profile</h2>
     <div class="profiles">
@@ -402,11 +407,21 @@ function tuningView(force) {
       ${profile('balanced', 'Recommended', 'Sunshine\'s low-latency defaults: a quick second pass that keeps motion clean at almost no cost.')}
       ${profile('picture', '', 'Slower preset with a full-resolution second pass and adaptive quantisation. Sharper image for a few extra milliseconds.')}
     </div>
+    <h2 class="section-title">Controller</h2>
+    <p class="section-note">What the handheld's controller looks like to games on this PC. Change it if a game ignores some buttons.</p>
+    <div class="profiles">
+      ${controller('auto', 'Recommended', 'Xbox 360', `Works with nearly every game. Sunshine's automatic choice.`)}
+      ${controller('ds4', '', 'PlayStation (DS4)', `Try this when an Xbox app game such as Flight Simulator 2024 ignores buttons. Also passes the handheld's gyro through.`)}
+      ${controller('xseries', s.sunshine.virtualHid ? '' : 'Needs Virtual HID Driver', 'Xbox Series', s.sunshine.virtualHid
+        ? 'The modern Xbox controller every game reads properly, including GameInput titles from the Xbox app.'
+        : `The best fit for Xbox app games, but it needs LizardByte's Virtual HID Driver (a paid add-on for Sunshine), which isn't installed.`, !s.sunshine.virtualHid)}
+    </div>
     <h2 class="section-title">Behaviour</h2>
     <div class="list">
       ${toggle('matchDisplay', 'Match the handheld\'s screen', `While a device is streaming, switch this monitor ${d ? `from ${d.w}×${d.h} at ${d.hz} Hz ` : ''}to the device's resolution and refresh rate, then switch back. Games render at the handheld's native mode instead of being scaled down.`)}
       ${toggle('guideHold', 'Hold View for the Guide button', 'Holding the View (Back) button for 1.5 seconds sends the Xbox Guide button, which opens Steam\'s overlay. Handhelds have no Guide button of their own.')}
       ${toggle('lockWebUi', 'Keep Sunshine\'s admin page on this PC only', 'Sunshine\'s settings page is reachable from every device on your network by default. This limits it to this computer.')}
+      ${toggle('hideTray', `Hide Sunshine's tray icon`, `Its Quit item turns streaming off completely and is easy to hit by mistake. Everything it offered is here in Solstice.`)}
     </div>
     <div class="apply">
       <button class="btn primary" data-do="tune-apply" id="tuneApply" ${dirty ? '' : 'disabled'}>Apply</button>
@@ -586,8 +601,8 @@ document.addEventListener('change', e => {
   if (t.dataset.pick) {
     t.checked ? app.picks.add(t.dataset.pick) : app.picks.delete(t.dataset.pick);
     updateSavebar();
-  } else if (t.name === 'profile') {
-    app.tuning.profile = t.value;
+  } else if (t.name === 'profile' || t.name === 'controller') {
+    app.tuning[t.name] = t.value;
     $('#tuneApply').disabled = JSON.stringify(app.tuning) === JSON.stringify(app.state.tuning);
   } else if (t.dataset.toggle) {
     app.tuning[t.dataset.toggle] = t.checked;

@@ -236,3 +236,9 @@ input:focus-visible { outline: 2px solid var(--moon); outline-offset: 0; border-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001s !important; transition-duration: .001s !important; }
 }
+
+/* ---------- tuning: controller choice ---------- */
+.section-note { color: var(--muted); font-size: 14px; margin: -4px 0 14px; max-width: 72ch; }
+.profile.off { cursor: default; }
+.profile.off .box { opacity: .55; }
+.profile.off .tag { color: var(--faint); }

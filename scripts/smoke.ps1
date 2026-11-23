@@ -44,7 +44,7 @@ Write-Host 'Solstice (PC app)'
 $p = Start-App $hostExe 'home' 47811
 try {
     Check 'state reports ready' { (Get-Json 47811 '/api/state').ready -eq $true }
-    Check 'seven health checks' { @((Get-Json 47811 '/api/state').checks).Count -eq 7 }
+    Check 'eight health checks' { @((Get-Json 47811 '/api/state').checks).Count -eq 8 }
     Check 'library lists launchers and games' { @((Get-Json 47811 '/api/library').items).Count -ge 10 }
     Check 'devices lists paired devices' { @((Get-Json 47811 '/api/devices').clients).Count -eq 2 }
     Check 'box art is a PNG' {

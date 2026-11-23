@@ -247,6 +247,30 @@ static class Sunshine
             ["name"] = name,
         }))?["status"]?.GetValue<bool>() == true;
 
+    static (bool Installed, string Version) _virtualHid;
+    static DateTime _virtualHidAt;
+
+    /// <summary>
+    /// Whether LizardByte's Virtual HID Driver is installed (needed for Xbox One/Series controller
+    /// emulation). Cached for a minute; reported as not installed when Sunshine cannot be asked.
+    /// </summary>
+    public static async Task<(bool Installed, string Version)> VirtualHid()
+    {
+        if (DateTime.UtcNow - _virtualHidAt < TimeSpan.FromMinutes(1)) return _virtualHid;
+        try
+        {
+            var v = (await Json(HttpMethod.Get, "/api/virtual-input/status"))?["virtualhid"];
+            _virtualHid = (v?["installed"]?.GetValue<bool>() == true && v?["version_compatible"]?.GetValue<bool>() == true,
+                           v?["version"]?.ToString() ?? "");
+        }
+        catch
+        {
+            _virtualHid = (false, "");
+        }
+        _virtualHidAt = DateTime.UtcNow;
+        return _virtualHid;
+    }
+
     public static async Task CloseRunningApp()
     {
         await Json(HttpMethod.Post, "/api/apps/close");

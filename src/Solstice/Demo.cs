@@ -7,7 +7,7 @@ namespace Solstice;
 /// <summary>
 /// Simulated data for screenshots and the website (run with <c>--demo [scene]</c>). Nothing here
 /// touches Sunshine, the network or the real library, so no personal details appear in images.
-/// Scenes: welcome, setup-0 … setup-6, home, streaming, approve, library, tuning.
+/// Scenes: welcome, setup-0 … setup-6, home, streaming, link, approve, library, tuning.
 /// </summary>
 static class Demo
 {
@@ -110,10 +110,16 @@ static class Demo
 
     static JsonObject Tuning() => new()
     {
-        ["profile"] = "balanced", ["matchDisplay"] = true, ["lockWebUi"] = true, ["guideHold"] = true,
+        ["profile"] = "balanced", ["controller"] = "auto", ["matchDisplay"] = true, ["lockWebUi"] = true, ["guideHold"] = true, ["hideTray"] = true,
     };
 
-    static JsonObject Link() => Scene == "approve"
+    static JsonObject Link() => Scene == "link"
+        ? new JsonObject
+        {
+            ["active"] = true, ["url"] = "http://192.168.1.50:47800", ["secondsLeft"] = 878, ["clientAvailable"] = true,
+            ["request"] = null, ["lastPaired"] = "", ["note"] = "",
+        }
+        : Scene == "approve"
         ? new JsonObject
         {
             ["active"] = true, ["url"] = "http://192.168.1.50:47800", ["secondsLeft"] = 812, ["clientAvailable"] = true,
@@ -169,7 +175,7 @@ static class Demo
             ["sunshine"] = new JsonObject
             {
                 ["installed"] = !setupScene, ["version"] = "2026.914.233613", ["service"] = setupScene ? "Missing" : "Running",
-                ["api"] = setupScene ? "Down" : "Ok", ["webUi"] = "https://localhost:47990",
+                ["api"] = setupScene ? "Down" : "Ok", ["webUi"] = "https://localhost:47990", ["virtualHid"] = false,
             },
             ["activity"] = new JsonObject
             {
@@ -188,6 +194,7 @@ static class Demo
                 Check("controller", "Controller driver", "ok", "ViGEmBus is installed: the handheld's buttons and sticks arrive as an Xbox controller."),
                 Check("network", "Network", "ok", "Wired at 1 Gbps. This PC's address is 192.168.1.50."),
                 Check("firewall", "Firewall", "ok", "Windows Firewall lets devices reach Sunshine."),
+                Check("pads", "Other controllers", "ok", "No controller is connected to this PC, so games will follow the handheld's."),
                 Check("wake", "Wake from sleep", "ok", "Wake-on-LAN is on: the handheld can wake this PC when it is asleep.")),
             ["link"] = Link(),
         };

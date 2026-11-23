@@ -10,15 +10,22 @@ static class Tuning
 {
     public static readonly string[] Profiles = { "latency", "balanced", "picture" };
 
+    /// <summary>Emulated controller types Solstice offers (Sunshine's <c>gamepad</c> setting).</summary>
+    public static readonly string[] Controllers = { "auto", "ds4", "xseries" };
+
+    static readonly string[] Toggles = { "matchDisplay", "lockWebUi", "guideHold", "hideTray" };
+
     public static JsonObject Current()
     {
         var s = Settings.Load();
         return new JsonObject
         {
             ["profile"] = s.Str("profile", "balanced"),
+            ["controller"] = s.Str("controller", "auto"),
             ["matchDisplay"] = s.Bool("matchDisplay", true),
             ["lockWebUi"] = s.Bool("lockWebUi", true),
             ["guideHold"] = s.Bool("guideHold", true),
+            ["hideTray"] = s.Bool("hideTray", true),
         };
     }
 
@@ -67,6 +74,18 @@ static class Tuning
 
         // Hold Back/View for 1.5 s to send the Guide button (opens Steam's overlay on a handheld).
         k["back_button_timeout"] = t.Bool("guideHold", true) ? "1500" : null;
+
+        // Sunshine's tray icon has a Quit item that stops the streaming service outright, and it is
+        // easy to click by mistake. Solstice covers everything the icon offered.
+        k["system_tray"] = t.Bool("hideTray", true) ? "disabled" : null;
+
+        // Which controller the PC creates for the handheld. Xbox 360 (Sunshine's automatic choice)
+        // works with nearly every game. Some Xbox app games read controllers through GameInput,
+        // which mishandles Xbox 360-type pads; a DualShock 4 or, with LizardByte's Virtual HID
+        // Driver, an Xbox Series controller avoids that.
+        var controller = t.Str("controller", "auto");
+        k["gamepad"] = controller == "auto" ? null : controller;
+        k["motion_as_ds4"] = controller == "ds4" ? "enabled" : null;
         return k;
     }
 
@@ -79,14 +98,25 @@ static class Tuning
     {
         var profile = choices.Str("profile", "balanced");
         if (Array.IndexOf(Profiles, profile) < 0) throw new AppException("Unknown profile.");
+        var controller = choices.Str("controller", "auto");
+        if (Array.IndexOf(Controllers, controller) < 0) throw new AppException("Unknown controller type.");
+        if (controller == "xseries" && !(await Sunshine.VirtualHid()).Installed)
+            throw new AppException("Xbox Series controllers need LizardByte's Virtual HID Driver, which is not installed on this PC. Choose Automatic or PlayStation instead.");
 
         Settings.Update(s =>
         {
             s["profile"] = profile;
-            foreach (var key in new[] { "matchDisplay", "lockWebUi", "guideHold" })
+            s["controller"] = controller;
+            foreach (var key in Toggles)
                 s[key] = choices.Bool(key, true);
         });
 
+        return await Push(allowRestart);
+    }
+
+    /// <summary>Writes the saved choices to Sunshine, restarting it only when something changed.</summary>
+    static async Task<string> Push(bool allowRestart)
+    {
         var changed = await Sunshine.PatchConfig(Keys(Current()));
         if (!changed) return "unchanged";
         if (!allowRestart || Probe.Activity()["streaming"]!.GetValue<bool>()) return "pending";
@@ -95,5 +125,18 @@ static class Tuning
         await Task.Delay(1500);
         await Sunshine.WaitUntilUp(40);
         return "applied";
+    }
+
+    static int _ensured;
+
+    /// <summary>
+    /// Once per launch, brings Sunshine's settings in line with the saved choices, so settings
+    /// added in a newer Solstice (such as hiding the tray icon) reach existing installs.
+    /// </summary>
+    public static async Task EnsureOnce()
+    {
+        if (Interlocked.Exchange(ref _ensured, 1) == 1) return;
+        try { await Push(allowRestart: true); }
+        catch { _ensured = 0; }
     }
 }

@@ -8,7 +8,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Solstice</RootNamespace>
     <AssemblyName>SolsticePlay</AssemblyName>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Product>Solstice Play</Product>
     <Description>One-tap game streaming from your PC to this device, built on Moonlight</Description>
     <ApplicationIcon>Assets\app.ico</ApplicationIcon>

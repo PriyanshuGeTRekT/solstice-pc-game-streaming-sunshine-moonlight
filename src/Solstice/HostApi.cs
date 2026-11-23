@@ -183,7 +183,12 @@ static class HostApi
             : new JsonObject { ["streaming"] = false, ["encoders"] = new JsonArray(), ["events"] = new JsonArray(), ["gamepadMissing"] = false };
         var setupDone = Settings.Load().Bool("setupDone", false);
         // Entries published by an older version are brought up to date once per launch.
-        if (setupDone && api == ApiStatus.Ok && !Setup.Status()["running"]!.GetValue<bool>()) _ = Task.Run(Library.RepairOnce);
+        if (setupDone && api == ApiStatus.Ok && !Setup.Status()["running"]!.GetValue<bool>())
+        {
+            // Bring entries and settings from an older version up to date, once per launch.
+            _ = Task.Run(Library.RepairOnce);
+            _ = Task.Run(Tuning.EnsureOnce);
+        }
         var vigem = host["vigem"]?.GetValue<bool>() == true;
         var firewall = host["firewall"]?.GetValue<bool>() == true;
         var encoders = activity["encoders"]!.AsArray().Select(e => e!.ToString()).ToArray();
@@ -197,7 +202,9 @@ static class HostApi
             installed && service == "Running" ? "ok" : "bad",
             !installed ? "Sunshine is not installed."
                 : service == "Running" ? $"Sunshine {Sunshine.Version()} is running and starts with Windows."
-                : $"The Sunshine service is {service.ToLowerInvariant()}.",
+                : activity["trayQuit"] is JsonValue tq
+                    ? $"Sunshine was turned off with Quit on its tray icon ({tq.ToString()[11..16]}). Start it again; Solstice now hides that icon so it can't be quit by accident."
+                    : $"The Sunshine service is {service.ToLowerInvariant()}.",
             !installed ? "setup" : service == "Running" ? null : "restart", !installed ? "Run setup" : "Start it");
 
         if (installed && service == "Running")
@@ -223,6 +230,17 @@ static class HostApi
             vigem ? "ViGEmBus is installed: the handheld's buttons and sticks arrive as an Xbox controller."
                   : "ViGEmBus is missing, so controller input will not reach games.",
             vigem ? null : "setup", "Run setup");
+
+        // A controller plugged into or paired with this PC can become player 1, and some games
+        // then ignore the handheld's controller. While streaming, the handheld's own virtual
+        // controller accounts for one of the slots.
+        var pads = Probe.ControllersConnected();
+        var streamingNow = activity["streaming"]!.GetValue<bool>();
+        var others = streamingNow ? Math.Max(0, pads - 1) : pads;
+        Check("pads", "Other controllers", others == 0 ? "ok" : "warn",
+            others == 0
+                ? (streamingNow ? "Only the handheld's controller is connected, so games follow it." : "No controller is connected to this PC, so games will follow the handheld's.")
+                : $"{(others == 1 ? "A controller is" : $"{others} controllers are")} connected directly to this PC. Games may treat {(others == 1 ? "it" : "one")} as player 1 and ignore the handheld; switch {(others == 1 ? "it" : "them")} off while you stream.");
 
         if (host["nic"] != null)
         {
@@ -260,6 +278,7 @@ static class HostApi
             {
                 ["installed"] = installed, ["version"] = Sunshine.Version(), ["service"] = service,
                 ["api"] = api.ToString(), ["webUi"] = Sunshine.WebUiUrl,
+                ["virtualHid"] = api == ApiStatus.Ok && (await Sunshine.VirtualHid()).Installed,
             },
             ["activity"] = activity,
             ["tuning"] = Tuning.Current(),

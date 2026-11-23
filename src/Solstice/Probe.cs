@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 
@@ -82,6 +83,28 @@ static class Probe
 
     static readonly Regex Stamp = new(@"^\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\.\d+\]: (\w+): (.*)$", RegexOptions.Compiled);
 
+    [StructLayout(LayoutKind.Sequential)]
+    struct XInputState { public uint Packet; public ushort Buttons; public byte LeftTrigger, RightTrigger; public short LX, LY, RX, RY; }
+
+    [DllImport("xinput1_4.dll", EntryPoint = "XInputGetState")]
+    static extern uint XInputGetState(uint index, out XInputState state);
+
+    /// <summary>
+    /// How many controllers Windows reports in its four XInput slots right now: physical pads
+    /// plus, while a device is streaming, the virtual pad Sunshine creates for it.
+    /// </summary>
+    public static int ControllersConnected()
+    {
+        var n = 0;
+        try
+        {
+            for (uint i = 0; i < 4; i++)
+                if (XInputGetState(i, out _) == 0) n++;
+        }
+        catch { /* XInput unavailable */ }
+        return n;
+    }
+
     /// <summary>Maps each published app's command (tracked or detached) to its name, from apps.json.</summary>
     static Dictionary<string, string> AppNamesByCommand()
     {
@@ -115,6 +138,7 @@ static class Probe
         var live = false;
         string? since = null, app = null, lastApp = null, spawned = null;
         var gamepadMissing = false;
+        string? trayQuit = null;
         var names = AppNamesByCommand();
 
         foreach (var line in lines)
@@ -130,6 +154,13 @@ static class Probe
                 since = null;
                 encoders.Clear();
                 gamepadMissing = false;
+                trayQuit = null;
+            }
+            else if (text.StartsWith("Quitting from system tray"))
+            {
+                // Sunshine's tray icon has a Quit item that stops the whole streaming service.
+                trayQuit = time;
+                live = false;
             }
             else if (text.StartsWith("Found H.264 encoder")) encoders.Add("H.264");
             else if (text.StartsWith("Found HEVC encoder")) encoders.Add("HEVC");
@@ -180,6 +211,7 @@ static class Probe
             ["app"] = streaming ? app : null,
             ["encoders"] = new JsonArray(encoders.Distinct().Select(e => (JsonNode)e).ToArray()),
             ["gamepadMissing"] = gamepadMissing,
+            ["trayQuit"] = trayQuit,
             ["events"] = recent,
         };
     }

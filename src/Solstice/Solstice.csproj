@@ -8,7 +8,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Solstice</RootNamespace>
     <AssemblyName>Solstice</AssemblyName>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Product>Solstice</Product>
     <Description>One-click game streaming host built on Sunshine and Moonlight</Description>
     <ApplicationIcon>Assets\app.ico</ApplicationIcon>

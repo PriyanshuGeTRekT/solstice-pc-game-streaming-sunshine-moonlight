@@ -100,6 +100,7 @@
 - Solstice Play learns the PC's hardware address during setup. Press **Play** while the PC is asleep and it sends **Wake-on-LAN** and waits for it to come up.
 - **Finds the PC without mDNS**, by checking your own subnet, so it works on networks Windows marks as Public.
 - **Hold View** for 1.5 seconds to send the Xbox Guide button, which opens Steam's overlay. Handhelds don't have one.
+- **Controller type** to suit the game: Xbox 360 for nearly everything, PlayStation (DS4) when an Xbox app game ignores buttons, or Xbox Series with LizardByte's Virtual HID Driver.
 - Ending a session closes the game on the PC and puts the monitor back (or keep it running to resume later).
 
 ### 🩺 Health at a glance
@@ -231,6 +232,12 @@ No. Solstice installs Sunshine and the controller driver on the PC, and Solstice
 ### Does it work with the Legion Go, MSI Claw or Steam Deck?
 Solstice Play works on any Windows handheld or PC, including the Legion Go and MSI Claw. The Steam Deck runs Linux, so install Moonlight from Discover and pair with the PIN under **Devices** in Solstice.
 
+### A button works in menus but not in a game. What's wrong?
+Usually one of two things. A **controller connected directly to the PC** can become player 1, and the game then ignores the handheld. Solstice warns about this under **Other controllers** on the Home page. Or the game reads controllers through Microsoft's **GameInput**, which has a [long-standing bug with Xbox 360-type controllers](https://github.com/microsoft/GDK/issues/39); some Xbox app games, such as Flight Simulator 2024, use it. Sunshine's free driver can only create Xbox 360 or PlayStation 4 controllers, so try **Tuning › Controller › PlayStation (DS4)**. With LizardByte's paid Virtual HID Driver installed, **Xbox Series** is the best fit.
+
+### Streaming stopped by itself. Why?
+Older versions left Sunshine's tray icon visible, and its **Quit** item turns streaming off completely. Solstice now hides that icon. If streaming is off, the Home page says why and offers **Start streaming**.
+
 ### Why does my PC show 1080p while I'm streaming?
 That's **Match the handheld's screen**: the PC renders at the handheld's native resolution and refresh rate for the best sharpness and lowest latency, and switches back when the session ends. You can turn it off under **Tuning**.
 
@@ -273,6 +280,7 @@ src/
 scripts/           Smoke test
 tools/             Installer, icon generator, screenshot and media rendering
 docs/              Website (GitHub Pages), screenshots, demo
+marketing/         YouTube video, Short and thumbnail, rendered from demo mode
 ```
 
 ## Star history
